@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class HelloWorldController {
 
     @ResponseStatus(HttpStatus.BAD_GATEWAY)
-    @GetMapping("/class")
+    @GetMapping("/classes")
     public String getMessage(){
         return "Java and Spring boot batch says hello from my app!!!";
     }
