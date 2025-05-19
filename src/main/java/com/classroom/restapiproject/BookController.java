@@ -9,14 +9,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/books")
-public class HelloWorldController {
+public class BookController {
 
     private List<Book> books = new ArrayList<>();
 
-    public HelloWorldController() {
+    public BookController() {
         // Add some sample books when the controller is created
-        books.add(new Book(1L, "The Hobbit", "J.R.R. Tolkien"));
-        books.add(new Book(2L, "Pride and Prejudice", "Jane Austen"));
+        books.add(new Book("The Hobbit", "J.R.R. Tolkien","214324"));
+        books.add(new Book( "Pride and Prejudice", "Jane Austen","45455"));
     }
 
 
