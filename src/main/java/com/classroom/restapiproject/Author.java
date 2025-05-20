@@ -1,12 +1,9 @@
 package com.classroom.restapiproject;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-// We might need this later!
-// import jakarta.persistence.OneToMany;
-// import java.util.List;
+import jakarta.persistence.*;
+
+import java.util.List;
+
 
 @Entity
 public class Author {
@@ -19,8 +16,8 @@ public class Author {
     private String country;
 
     // We'll add books here later
-    // @OneToMany(mappedBy = "author") // "mappedBy" points to the 'author' field in the Book entity
-    // private List<Book> books;
+     @OneToMany(mappedBy = "author",fetch = FetchType.EAGER) // "mappedBy" points to the 'author' field in the Book entity
+     private List<Book> books;
 
     public Author() {
     }
