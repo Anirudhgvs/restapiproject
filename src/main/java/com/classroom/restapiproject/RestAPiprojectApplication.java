@@ -14,8 +14,6 @@ import java.util.Optional;
 @SpringBootApplication
 public class RestAPiprojectApplication {
 
-	private static final Logger log = LoggerFactory.getLogger(RestAPiprojectApplication.class);
-
 	public static void main(String[] args) {
 
 		SpringApplication.run(RestAPiprojectApplication.class, args);
