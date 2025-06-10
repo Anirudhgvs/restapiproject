@@ -54,20 +54,14 @@ public class BookController {
 
     // Update a book by ID
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateBook(@PathVariable Long id, @RequestBody Book updatedBook) {
-        Book savedBook = updateBookInCache(id, updatedBook);
-        if (savedBook != null) {
-            return ResponseEntity.ok(savedBook);
-        }
-        return ResponseEntity.notFound().build();
-    }
-
     @CachePut(value = "books", key = "#id")
-    private Book updateBookInCache(Long id, Book updatedBook) {
+    public Book updateBook(@PathVariable Long id, @RequestBody Book updatedBook) {
         Optional<Book> existingBook = bookRepository.findById(id);
+        Book updatedBookEntry = null;
         if (existingBook.isPresent()) {
             updatedBook.setId(id);
-            return bookRepository.save(updatedBook);
+            updatedBookEntry = bookRepository.save(updatedBook);
+            return updatedBookEntry;
         }
         return null;
     }
