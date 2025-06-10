@@ -11,19 +11,13 @@ public class Book {
     private String title;
     private String isbn;
 
-    @ManyToOne // This is the magic! Many Books can belong to One Author.
-    @JoinColumn(name = "author_id") // This tells JPA to create an 'author_id' column in the Book table
-    // to store the ID of the related Author.
-    private Author author; // Each book object will now hold a reference to an Author object.
-
     // Constructors (special methods to create Book objects)
     public Book() {
         // Default constructor - JPA needs this!
     }
 
-    public Book(String title,  String isbn, Author author) {
+    public Book(String title,  String isbn) {
         this.title = title;
-        this.author = author;
         this.isbn = isbn;
     }
 
@@ -45,13 +39,6 @@ public class Book {
         this.title = title;
     }
 
-    public Author getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(Author author) {
-        this.author = author;
-    }
 
     public String getIsbn() {
         return isbn;
@@ -67,7 +54,6 @@ public class Book {
         return "Book{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
-                ", author='" + author + '\'' +
                 ", isbn='" + isbn + '\'' +
                 '}';
     }
