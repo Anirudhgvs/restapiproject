@@ -1,9 +1,12 @@
 package com.classroom.restapiproject;
 
 import jakarta.persistence.*;
+import java.io.Serializable;
 
 @Entity
-public class Book {
+public class Book implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id // Marks this field as the primary key (unique identifier) for the book.
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Tells the database to automatically generate this ID.
@@ -16,7 +19,7 @@ public class Book {
         // Default constructor - JPA needs this!
     }
 
-    public Book(String title,  String isbn) {
+    public Book(String title, String isbn) {
         this.title = title;
         this.isbn = isbn;
     }
@@ -38,7 +41,6 @@ public class Book {
     public void setTitle(String title) {
         this.title = title;
     }
-
 
     public String getIsbn() {
         return isbn;

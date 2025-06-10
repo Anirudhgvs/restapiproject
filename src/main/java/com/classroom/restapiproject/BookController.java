@@ -35,18 +35,17 @@ public class BookController {
 
     // Get a specific book by ID
     @GetMapping("/{id}")
-    @Cacheable(value = "books", key = "#id")
-    public ResponseEntity<?> getBookById(@PathVariable Long id) {
+    @Cacheable(value = "books", key = "#id", unless = "#result == null")
+    public Book getBookById(@PathVariable Long id) {
         Optional<Book> book = bookRepository.findById(id);
         if (book.isPresent()) {
-            return ResponseEntity.ok(book.get());
+            return book.get();
         }
-        return ResponseEntity.notFound().build();
+        return null;
     }
 
     // Create a new book
     @PostMapping
-    @CacheEvict(value = "books", allEntries = true)
     public ResponseEntity<Book> createBook(@RequestBody Book book) {
         Book savedBook = bookRepository.save(book);
         System.out.println("Created and cached new book with ID: " + savedBook.getId());
@@ -55,15 +54,22 @@ public class BookController {
 
     // Update a book by ID
     @PutMapping("/{id}")
-    @CachePut(value = "books", key = "#id")
     public ResponseEntity<?> updateBook(@PathVariable Long id, @RequestBody Book updatedBook) {
-        Optional<Book> existingBook = bookRepository.findById(id);
-        if (existingBook.isPresent()) {
-            updatedBook.setId(id); // Ensure the ID matches the path variable
-            Book savedBook = bookRepository.save(updatedBook);
+        Book savedBook = updateBookInCache(id, updatedBook);
+        if (savedBook != null) {
             return ResponseEntity.ok(savedBook);
         }
         return ResponseEntity.notFound().build();
+    }
+
+    @CachePut(value = "books", key = "#id")
+    private Book updateBookInCache(Long id, Book updatedBook) {
+        Optional<Book> existingBook = bookRepository.findById(id);
+        if (existingBook.isPresent()) {
+            updatedBook.setId(id);
+            return bookRepository.save(updatedBook);
+        }
+        return null;
     }
 
     // Delete a book by ID
